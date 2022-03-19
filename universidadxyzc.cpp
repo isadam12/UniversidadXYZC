@@ -3,8 +3,18 @@
 #include <stdlib.h>
 #include<time.h>
 #include<string>
+#include <chrono>
+#include <sys/time.h>
+#include <ctime>
 
 using namespace std;
+string timeToString(::chrono::system_clock::time_point &t)
+{
+	time_t time = ::chrono::system_clock::to_time_t(t);
+    string time_str = ::ctime(&time);
+    time_str.resize(time_str.size() - 1);
+    return time_str;
+}
 
 int main(int argc, char** argv) {
      int opcion, NUMT;
@@ -25,7 +35,7 @@ int main(int argc, char** argv) {
     }
     else
     {
-        cout << "Este servicio solo se brinda a los estudiantes que mantienen su matricula activa";
+        cout << "Este servicio solo se brinda a los estudiantes que mantienen su matricula activa"<< endl;
     }
 
     string usuario, clave ="";
@@ -37,17 +47,34 @@ cout << "Introduzca la clave: "<< endl;
     if(clave == "123c")
     {
         cout << "Credenciales validas, ha iniciado sesion."<< endl;
+        
+        
+        auto time_p = ::chrono::system_clock::now();
+        
+    cout << "Fecha y hora de ingreso: " << timeToString(time_p) << endl;
+    
+	string nuevaclave;
+
+        cout << "\nINICIO DE SESION EXITOSO\n"<< endl;
+
+        while (true)
+        {
+            cout << "\nPor favor cambie la clave:"<< endl;
+            cin >> nuevaclave;
+                break;
+        }    
     }
     else
     {
         cout << "Credenciales incorrectas." << endl;
     }
     
-    do{    
+    {    
     cout<<"-----------------"<<endl;
 	cout<<"Bienvenido."<<endl;
 	cout<<"1.Subir un ticket"<<endl;
 	cout<<"2. Ver Tickets"<<endl;
+	cout<<"3. Salir"<<endl;
     cin>>opcion;
 
 	 switch (opcion) {
@@ -103,9 +130,18 @@ cout << "Introduzca la clave: "<< endl;
 	 cout<<"Identificacion: "<<ID<<endl;
 	 cout<<"Email: "<<EMAIL<<endl;
 	 cout<<"Carrera: "<<Carrera<<endl;
-	 cout<<"Motivo del Ticket: "<<Ticket<<endl; }
+	 cout<<"Motivo del Ticket: "<<Ticket<<endl;
+	 break;
+	   case 3: 
+     cout <<"---------------------------------"<<endl;
+	auto time_p = ::chrono::system_clock::now();
+    cout << "Fecha y hora de cierre de sesion: " << timeToString(time_p) << endl;
+    cout << "\nSESION CERRADA EXITOSAMENTE\n";
+    cout << "---------Universidad XYZ---------"<<endl;
+    cout <<"---------------------------------"<<endl;
+    break;
+	 }
 
-}while(true);
-
-    return 0;
+}
+return(0);
 }
